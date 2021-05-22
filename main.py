@@ -54,6 +54,7 @@ def take_order():
 
 
 def get_human():
+    output_tts("Please hold for one second.")
     pass
 
 
