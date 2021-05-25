@@ -13,8 +13,10 @@ hours_set = {"open", "closed", "close", "time"}
 
 def output_tts(reply):
     print(reply)
-    # [START TTS]
+
     '''
+    # [START TTS]
+    
     https://cloud.google.com/text-to-speech
     
         1. Enable Text-to-Speech API service.
@@ -55,9 +57,11 @@ def output_tts(reply):
         # Write the response to the output file.
         out.write(response.audio_content)
         print('Audio content written to file "output.mp3"')
+          
     # [END TTS]
     
     # [PLAY AUDIO] 
+    
     from playsound import playsound
     playsound('output.mp3')
 '''
