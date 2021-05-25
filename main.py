@@ -15,6 +15,16 @@ def output_tts(reply):
     print(reply)
     # [START TTS]
     '''
+    https://cloud.google.com/text-to-speech
+    
+        1. Enable Text-to-Speech API service.
+        2. Create a Service Account.
+        3. Download Service Account client file (JSON file).
+        4. Install Text-To-Speech Python Client library.
+        5. Create a Python program to convert texts to audio (MP4 file).
+        6. Play back file. 
+
+    
     from google.cloud import texttospeech
 
     # Instantiates a client
@@ -59,7 +69,7 @@ def greeting():
     if initial_response in yes_set:
         carryout_or_delivery()
     else:
-        for _ in initial_response:  # Might need to edit this 
+        for _ in initial_response:  # Might need to edit this
             if initial_response.__contains__(hours_set):
                 output_tts("We are open from " + Restaurant.schedule.get("weekday") + "on the weekdays and "
                            + Restaurant.schedule.get("weekend") + "on the weekends.")
