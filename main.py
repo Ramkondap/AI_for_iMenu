@@ -1,4 +1,5 @@
 import Restaurant
+import speech_recognition as sr
 
 Restaurant.name = "Name Here"
 Restaurant.delivery = False
@@ -66,29 +67,41 @@ def output_tts(reply):
     playsound('output.mp3')
 '''
 
+def input_stt():
+    try:
+        with sr.Microphone() as source:
+            caller_input = listener.listen(source)
+            user_response = listener.recognize_google(caller_input)
+            print(user_response).lower()
+            return user_response.lower()
+    except:
+        get_human()
+
 
 def greeting():
     output_tts("Thank you for calling " + Restaurant.name + "Would you like to place an order?")
-    initial_response = input().lower()
+    initial_response = input_stt()
+
     if initial_response in yes_set:
         carryout_or_delivery()
     else:
-        for _ in initial_response:  # Might need to edit this
-            if initial_response.__contains__(hours_set):
-                output_tts("We are open from " + Restaurant.schedule.get("weekday") + "on the weekdays and "
-                           + Restaurant.schedule.get("weekend") + "on the weekends.")
-            else:
-                get_human()
+        if hours_set in initial_response:
+            output_tts("We are open from " + Restaurant.schedule.get("weekday") + "on the weekdays and "
+                       + Restaurant.schedule.get("weekend") + "on the weekends.")
+        else:
+            get_human()
 
 
 def carryout_or_delivery():
     output_tts("Carryout or delivery?")
-    carryout_check = input().lower()
+    carryout_check = input_stt()
     if carryout_check == "delivery":
         if Restaurant.delivery is False:
             output_tts("Sorry, we don't support delivery over the phone at this point. For delivery options please "
                        "check our website " + Restaurant.website)
-        carryout_instead = input("would you like to place a carry out order instead?")
+        carryout_instead_output = "Would you like to place a carry out order instead?"
+        print(carryout_instead_output)
+        carryout_instead = input_stt()
         if carryout_instead in yes_set:
             take_order()
         else:
@@ -101,13 +114,28 @@ def carryout_or_delivery():
 
 
 def take_order():
-    pass
+    cont_check = True
 
+    try:
+        while cont_check:
+            with sr.Microphone() as source:
+                caller_input = listener.listen(source)
+                order = listener.recognize_google(caller_input)
+                print(order)
+
+                if order == "thats it":
+                    cont_check = False
+    except:
+        get_human()
+
+    confirm_order()
+
+def confirm_order():
+    pass
 
 def get_human():
     output_tts("Please hold for one second.")
-    pass
-
+    # break
 
 if __name__ == '__main__':
     greeting()
